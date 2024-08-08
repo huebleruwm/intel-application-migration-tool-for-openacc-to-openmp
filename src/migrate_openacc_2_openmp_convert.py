@@ -211,21 +211,6 @@ def translate_oacc2_aux_copy_clauses(txConfig, c):
 	omp_clauses = []
 	warnings = []
 
-	# Process copy clause
-	variables = getMultiParenthesisContents (c.construct, "copy")
-	if len(variables) > 0:
-		omp_clauses.append (f"map(tofrom:{variables})")
-
-	variables = getMultiParenthesisContents (c.construct, "pcopy")
-	if len(variables) > 0:
-		omp_clauses.append (f"map(tofrom:{variables})")
-		warnings.append (PREDEFINED_WARNINGS["present_or_X"])
-
-	variables = getMultiParenthesisContents (c.construct, "present_or_copy")
-	if len(variables) > 0:
-		omp_clauses.append (f"map(tofrom:{variables})")
-		warnings.append (PREDEFINED_WARNINGS["present_or_X"])
-
 	# Process copyin clause
 	variables = getMultiParenthesisContents (c.construct, "copyin")
 	if len(variables) > 0:
@@ -239,6 +224,21 @@ def translate_oacc2_aux_copy_clauses(txConfig, c):
 	variables = getMultiParenthesisContents (c.construct, "present_or_copyin")
 	if len(variables) > 0:
 		omp_clauses.append (f"map(to:{variables})")
+		warnings.append (PREDEFINED_WARNINGS["present_or_X"])
+
+	# Process copy clause
+	variables = getMultiParenthesisContents (c.construct, "copy")
+	if len(variables) > 0:
+		omp_clauses.append (f"map(tofrom:{variables})")
+
+	variables = getMultiParenthesisContents (c.construct, "pcopy")
+	if len(variables) > 0:
+		omp_clauses.append (f"map(tofrom:{variables})")
+		warnings.append (PREDEFINED_WARNINGS["present_or_X"])
+
+	variables = getMultiParenthesisContents (c.construct, "present_or_copy")
+	if len(variables) > 0:
+		omp_clauses.append (f"map(tofrom:{variables})")
 		warnings.append (PREDEFINED_WARNINGS["present_or_X"])
 
 	# Process copyout clause
